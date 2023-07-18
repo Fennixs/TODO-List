@@ -1,9 +1,9 @@
 const inputBox = document.getElementById("input-box");
 const listContainer = document.getElementById("list-container");
 
-const addToList = (text) => {
+const addToList = (item) => {
   let li = document.createElement("li");
-  li.innerText = inputBox.value;
+  li.innerText = item.Text;
   listContainer.appendChild(li);
   let span = document.createElement("span");
   span.innerText = "\u00d7";
@@ -24,7 +24,7 @@ function addTask() {
   })
     .then((res) => res.json())
     .then((item) => {
-      addToList(inputBox.value);
+      addToList(item);
       inputBox.value = "";
     })
     .catch(console.error);
@@ -44,5 +44,7 @@ listContainer.addEventListener(
 
 fetch("/api/list")
   .then((res) => res.json())
-  .then(console.log)
+  .then(todoList => {
+    todoList.map(addToList)
+  })
   .catch(console.error);
