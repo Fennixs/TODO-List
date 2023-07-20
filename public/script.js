@@ -17,7 +17,7 @@ function addTask() {
 
   fetch("/api/list", {
     method: "POST",
-    headers: {'Content-Type': 'application/json'},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       Text: inputBox.value,
     }),
@@ -44,7 +44,7 @@ listContainer.addEventListener(
 
 fetch("/api/list")
   .then((res) => res.json())
-  .then(todoList => {
-    todoList.map(addToList)
+  .then((todoList) => {
+    todoList.map(addToList);
   })
   .catch(console.error);

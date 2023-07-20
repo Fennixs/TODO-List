@@ -7,15 +7,18 @@ app.use(express.json())
 
 app.use(express.static("public"));
 
+const list = [];
+
 app.get("/api/list", (req, res) => {
   console.log("I got a request!");
-  res.json(tempDB);
+  res.json([]);
 });
 
 app.post("/api/list", (req, res) => {
   const body = req.body;
-  tempDB.push(body);
+  list.push(body);
   res.json(body);
+  
 });
 
 app.listen(port, () => {
