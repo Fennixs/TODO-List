@@ -9,14 +9,15 @@ const client = new Client({
   port: 5945,
 })
 
+client.connect();
 
-const run = async () => {
-  await client.connect()
+module.exports = client;
 
-  const res = await client.query('SELECT * FROM todolist')
-  console.log(res.rows)
-  await client.end()
 
-}
+//client.query('SELECT * FROM todolist').then((res) => console.log(res.rows))
 
-run();
+
+
+
+
+

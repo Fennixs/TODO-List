@@ -3,12 +3,51 @@ const listContainer = document.getElementById("list-container");
 
 const addToList = (item) => {
   let li = document.createElement("li");
-  li.innerText = item.Text;
+  if(item.completed) li.classList.add('checked');
+  
+  li.onclick = (e) => {
+    e.target.classList.toggle("checked");
+    const completed = e.target.classList.contains('checked');
+    const itemId = item.id;
+    updateList(itemId, completed);
+  }
+
+  li.innerText = item.text;
   listContainer.appendChild(li);
   let span = document.createElement("span");
+
+  span.onclick = (e) => {
+    deleteData(item.id)
+      .then(() => {
+        e.target.parentElement.remove();
+      })
+      .catch(console.error);
+  };
+
   span.innerText = "\u00d7";
   li.appendChild(span);
 };
+
+const updateList = async (id, completed) => {
+  try {
+    const response = await fetch(`/api/list`, { 
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ completed, id }) 
+    });
+  } catch (error) {
+    console.error('Error while completing the item:', error);
+  }
+};
+
+const deleteData =  (id) =>  
+  fetch(`/api/list`, {
+    method: 'DELETE',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ id }) 
+  });
+
+
 
 function addTask() {
   if (inputBox.value === "") {
@@ -19,28 +58,16 @@ function addTask() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      Text: inputBox.value,
+      text: inputBox.value,
     }),
   })
     .then((res) => res.json())
-    .then((item) => {
-      addToList(item);
+    .then((items) => {
+      items.map(addToList);
       inputBox.value = "";
     })
     .catch(console.error);
 }
-
-listContainer.addEventListener(
-  "click",
-  function (e) {
-    if (e.target.tagName === "LI") {
-      e.target.classList.toggle("checked");
-    } else if (e.target.tagName === "SPAN") {
-      e.target.parentElement.remove();
-    }
-  },
-  false
-);
 
 fetch("/api/list")
   .then((res) => res.json())
