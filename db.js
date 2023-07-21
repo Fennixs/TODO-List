@@ -1,19 +1,22 @@
-// // get the client
-// const mysql = require("mysql");
-// require("dotenv").config();
+// get the client
+const {Client} = require('pg');
+require("dotenv").config();
+const client = new Client({
+  host: "localhost",
+  user: process.env.DB_USERNAME,
+  database: "todoDb",
+  password: process.env.DB_PASSWORD,
+  port: 5945,
+})
 
-// // create the connection to database
-// const connection = mysql.createConnection({
-//   host: "localhost",
-//   user: process.env.DB_USERNAME,
-//   database: "todoDb",
-//   password: process.env.DB_PASSWORD,
-//   port: 5945,
-// });
 
-// connection.connect();
+const run = async () => {
+  await client.connect()
 
-// connection.query("SELECT * FROM todolist", function (err, results, fields) {
-//   console.log(err);
-//   console.log("The solution is: ", results);
-// });
+  const res = await client.query('SELECT * FROM todolist')
+  console.log(res.rows)
+  await client.end()
+
+}
+
+run();
