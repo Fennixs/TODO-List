@@ -48,7 +48,7 @@ app.delete("/api/list", async (req, res) => {
   const {id} = req.body;
 
   db.query('DELETE FROM todolist WHERE id = $1', [id])
-  .then((dbRes) =>{
+  .then((dbRes) =>{ 
     res.sendStatus(200);
   })
     .catch((err) => {

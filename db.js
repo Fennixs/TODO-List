@@ -9,7 +9,7 @@ const client = new Client({
   port: 5945,
 })
 
-client.connect();
+client.connect(); 
 
 module.exports = client;
 

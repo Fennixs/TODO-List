@@ -20,7 +20,7 @@ const addToList = (item) => {
     deleteData(item.id)
       .then(() => {
         e.target.parentElement.remove();
-      })
+      }) 
       .catch(console.error);
   };
 
