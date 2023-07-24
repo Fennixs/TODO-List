@@ -16,7 +16,7 @@ const addToList = (item) => {
   listContainer.appendChild(li);
   let span = document.createElement("span");
 
-  span.onclick = (e) => {
+  span.onclick = (e) => { 
     deleteData(item.id)
       .then(() => {
         e.target.parentElement.remove();
