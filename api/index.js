@@ -1,5 +1,4 @@
 const express = require("express");
-const { v4 } = require('uuid');  // Import UUID library
 const db = require("../db");
 const app = express();
 const port = 3000;
@@ -9,7 +8,6 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-// Example UUID-based path route
 app.get('/api', (req, res) => {
   const path = `/api/item/${v4()}`;
   res.setHeader('Content-Type', 'text/html');
@@ -17,7 +15,8 @@ app.get('/api', (req, res) => {
   res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
 });
 
-// Existing route to fetch the list of items from the database and return them as JSON.
+
+// Route to fetch the list of items from the database and return them as JSON.
 app.get("/api/list", (req, res) => {
   db.query("SELECT * FROM todolist")
     .then((dbRes) => {
@@ -26,22 +25,43 @@ app.get("/api/list", (req, res) => {
     .catch(console.error);
 });
 
-// Existing inserts item route
+// Inserts item route
 app.post("/api/list", async (req, res) => {
-  // ... your existing code for inserting items ...
+  const body = req.body;
+  const sql = `INSERT INTO todolist (text)
+  VALUES ($1) RETURNING *;`;
+  const dbRes = await db.query(sql, [body.text]);
+  res.json(dbRes.rows);
 });
 
-// Existing PUT route to update the completion status of a list item
+// PUT route to update the completion status of a list item
 app.put("/api/list", async (req, res) => {
-  // ... your existing code for updating items ...
+  const { completed, id } = req.body;
+
+  db.query("UPDATE todolist SET completed = $1 WHERE id = $2", [completed, id])
+    .then((dbRes) => {
+      console.log("Item successfully updated in the database.");
+      res.status(200).json(dbRes.rows);
+    })
+    .catch((err) => {
+      console.error("Error updating item:", err);
+      res.sendStatus(500);
+    });
 });
 
-// Existing delete item route with "/:itemId" parameter
+// Delete item route with "/:itemId" parameter
 app.delete("/api/list", async (req, res) => {
-  // ... your existing code for deleting items ...
+  const { id } = req.body;
+
+  db.query("DELETE FROM todolist WHERE id = $1", [id])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.error("Error deleting item:", err);
+    });
 });
 
-// Example route to handle UUID-based path
 app.get('/api/item/:slug', (req, res) => {
   const { slug } = req.params;
   res.end(`Item: ${slug}`);
