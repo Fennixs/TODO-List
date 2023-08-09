@@ -1,7 +1,7 @@
 const express = require("express");
-const db = require("./db");
+const db = require("../db");
 const app = express();
-const port = 8000;
+const port = 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
