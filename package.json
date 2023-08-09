@@ -9,16 +9,14 @@
     "nodemon": "^3.0.1",
     "pg": "^8.11.1"
   },
-  "name": "todo-list",
+  "name": "todo-list", 
   "version": "1.0.0",
   "description": "This is a TODO list site",
   "main": "index.js",
-  "engines": {
-    "node": "14.x"
-  },
   "scripts": {
     "start": "node index.js"
   },
   "author": "",
   "license": "ISC"
 }
+
