@@ -12,7 +12,7 @@
   "name": "todo-list",
   "version": "1.0.0",
   "description": "This is a TODO list site",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "node api/index.js",
     "vercel-build": "echo hello"
