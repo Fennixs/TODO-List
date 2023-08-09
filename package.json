@@ -14,7 +14,8 @@
   "description": "This is a TODO list site",
   "main": "index.js",
   "scripts": {
-    "start": "node api/index.js"
+    "start": "node api/index.js",
+    "vercel-build": "echo hello"
   },
   "author": "",
   "license": "ISC"
