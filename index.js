@@ -8,8 +8,6 @@ app.use(express.json())
 
 app.use(express.static("public"));
 
-const list = [];
-
 // Route to fetch the list of items from the database and return them as JSON.
 app.get("/api/list", (req, res) => {
   db.query('SELECT * FROM todolist')
